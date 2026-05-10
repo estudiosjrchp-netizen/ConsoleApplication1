@@ -1,4 +1,5 @@
 #pragma once
+#include <fstream>
 #include <iostream>
 #include "Dependencias.h"
 #include "conio.h"
@@ -10,9 +11,37 @@ class Controladora
 {
 private:
 	std::vector<Usuario> listaUsuarios; 
+    std::string nombreArchivoUsuarios = "usuarios.txt";
 public:
-	Controladora() {};
+	Controladora() {
+        cargarUsuarios();
+    };
 	~Controladora() {};
+
+    void cargarUsuarios() {
+        std::ifstream archivo(nombreArchivoUsuarios); 
+        if (archivo.is_open()) {
+            std::string id, nombre, correo, pass;
+            while (archivo >> id >> nombre >> correo >> pass) {
+                Usuario u(id, nombre, correo, pass);
+                listaUsuarios.push_back(u);
+            }
+            archivo.close();
+        }
+    }
+
+    void guardarUsuarios() {
+        std::ofstream archivo(nombreArchivoUsuarios); 
+        if (archivo.is_open()) {
+            for (const Usuario& u : listaUsuarios) {
+                archivo << u.getId() << " "
+                    << u.getNombreUsuario() << " "
+                    << u.getCorreo() << " "
+                    << u.getContrasena() << "\n";
+            }
+            archivo.close();
+        }
+    }
 
     void menuRegistrarUsuario() {
         std::string nId, nNombre, nCorreo, nPass;
@@ -42,7 +71,7 @@ public:
             // Creamos el usuario y lo metemos al vector
             Usuario nuevoUsuario(nId, nNombre, nCorreo, nPass);
             listaUsuarios.push_back(nuevoUsuario);
-
+            guardarUsuarios();
             gotoxy(19, 32); std::cout << "Usuario registrado con exito!";
         }
         std::cout << "\033[0m";
@@ -65,7 +94,7 @@ public:
                 // Borramos el elemento en la posicion listaUsuarios.begin() + i
                 listaUsuarios.erase(listaUsuarios.begin() + i);
                 encontrado = true;
-
+                guardarUsuarios(); //guardamos los usuarios
                 gotoxy(16, 34); std::cout << "Usuario eliminado correctamente.";
                 break;
             }
