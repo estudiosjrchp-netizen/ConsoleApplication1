@@ -8,8 +8,8 @@ class Controladora
 private:
 
 public:
-	Controladora();
-	~Controladora();
+	Controladora() {};
+	~Controladora() {};
 
 	void IniciarPrograma() {
 		ImprimirMatrizFondo(fondazo);
