@@ -29,6 +29,25 @@ void IniciarSesionFondo(int fila, int columna, int indiceIniciarSesionFondo) {
 
 
 }
+void BorrarPantallaEscribible() {
+	int fila = 10;
+	int columna = 15;
+	gotoxy(fila + 0, columna); std::cout << "                                                            ";
+	gotoxy(fila + 1, columna); std::cout << "                                                            ";
+	gotoxy(fila + 2, columna); std::cout << "                                                            ";
+	gotoxy(fila + 3, columna); std::cout << "                                                            ";
+	gotoxy(fila + 4, columna); std::cout << "                                                            ";
+	gotoxy(fila + 5, columna); std::cout << "                                                            ";
+	gotoxy(fila + 6, columna); std::cout << "                                                            ";
+	gotoxy(fila + 7, columna); std::cout << "                                                            ";
+	gotoxy(fila + 8, columna); std::cout << "                                                            ";
+	gotoxy(fila + 9, columna); std::cout << "                                                            ";
+	gotoxy(fila + 10, columna); std::cout << "                                                            ";
+	gotoxy(fila + 11, columna); std::cout << "                                                            ";
+	gotoxy(fila + 12, columna); std::cout << "                                                            ";
+	gotoxy(fila + 13, columna); std::cout << "                                                            ";
+	gotoxy(fila + 14, columna); std::cout << "                                                            ";
+}
 
 vvi fondazo = {
 	{3,	3,	3,	3,	3,	3,	3,	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	0, 	3,	3,	3,	3,	3,	3,	3},
