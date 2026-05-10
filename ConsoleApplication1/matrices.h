@@ -10,14 +10,22 @@ void gotoxy(int fila, int columna) {
 	std::cout << std::flush;
 }
 
-void IniciarSesionFondo(int fila, int columna) {
-	
+void IniciarSesionFondo(int fila, int columna, int indiceIniciarSesionFondo) {
 	gotoxy(fila + 0, columna); std::cout << std::flush;
-	std::cout << "Iniciar sesion"; // le puse mas 0 pa que este parejito xd , en realidad no es necesario pero me daba toc
+	if (indiceIniciarSesionFondo == 1) { std::cout << "\033[38;2;255;255;0m"; }
+	else { std::cout << "\033[38;2;146;208;80m"; }// verde spotify 
+	std::cout << "Iniciar sesion";
+	std::cout << "\033[0m";
 	gotoxy(fila + 1, columna); std::cout << std::flush;
+	if (indiceIniciarSesionFondo == 2) { std::cout << "\033[38;2;255;255;0m"; }
+	else { std::cout << "\033[38;2;146;208;80m"; }// verde spotify 
 	std::cout << "Agregar Usuario";
+	std::cout << "\033[0m";
 	gotoxy(fila + 2, columna); std::cout << std::flush;
+	if (indiceIniciarSesionFondo == 3) { std::cout << "\033[38;2;255;255;0m"; }
+	else { std::cout << "\033[38;2;146;208;80m"; }// verde spotify 
 	std::cout << "Eliminar Usuario";
+	std::cout << "\033[0m";
 
 
 }

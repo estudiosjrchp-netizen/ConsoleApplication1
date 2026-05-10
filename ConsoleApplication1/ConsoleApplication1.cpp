@@ -1,14 +1,8 @@
-#include <iostream>
-#include "Dependencias.h"
-#include "conio.h"
+#include "Controladora.h"
 
 int main() {
+	Controladora control;
 	ocultarCursor();
-	ImprimirMatrizFondo(fondazo);
-	while (true) {
-
-		IniciarSesionFondo(13, 37);
-	}
-	_getch();
+	control.IniciarPrograma();
 	return 0;
 }
