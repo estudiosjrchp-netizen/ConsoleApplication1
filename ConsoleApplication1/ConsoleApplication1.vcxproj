@@ -133,10 +133,12 @@
     <ClInclude Include="Album.h" />
     <ClInclude Include="Artista.h" />
     <ClInclude Include="Canciones.h" />
+    <ClInclude Include="Cola.h" />
     <ClInclude Include="Controladora.h" />
     <ClInclude Include="Dependencias.h" />
     <ClInclude Include="Lista1.h" />
     <ClInclude Include="matrices.h" />
+    <ClInclude Include="Pila.h" />
     <ClInclude Include="Playlist.h" />
     <ClInclude Include="Usuario.h" />
   </ItemGroup>

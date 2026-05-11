@@ -6,6 +6,8 @@
 #include "Lista1.h"
 #include "Usuario.h"
 #include "Canciones.h"
+#include "Pila.h"
+#include "Cola.h"
 
 class Controladora
 {
@@ -15,6 +17,9 @@ private:
     Lista1<Cancion> listaCancionesGlobales;
     std::string nombreArchivoCanciones = "canciones.txt";
 
+    Pila<Cancion> historialReproduccion;
+    Cola<Cancion> colaReproduccion;
+
 public:
     Controladora() {
         cargarUsuarios();
@@ -23,7 +28,7 @@ public:
     ~Controladora() {};
 
     void buscarArtistaRecursivo(int indice, std::string artistaBuscado, std::vector<Cancion>& resultados) {
-        if (indice >= listaCancionesGlobales.getCantidad()) { return; } 
+        if (indice >= listaCancionesGlobales.getCantidad()) { return; }
         Nodo<Cancion>* actual = listaCancionesGlobales.getInicio();
         for (int i = 0; i < indice && actual != nullptr; i++) { actual = actual->siguiente; }
 
@@ -64,13 +69,11 @@ public:
             int inicioPagina = paginaActual * cancionesPorPagina;
             int finPagina = std::min(inicioPagina + cancionesPorPagina, totalCanciones);
 
-            // Obtener el nodo inicial de esta página
             Nodo<Cancion>* actual = listaCancionesGlobales.getInicio();
             for (int i = 0; i < inicioPagina && actual != nullptr; i++) {
                 actual = actual->siguiente;
             }
 
-            // Imprimir las canciones de la página actual
             for (int i = inicioPagina; i < finPagina && actual != nullptr; i++) {
                 gotoxy(12 + (i - inicioPagina), 15);
                 std::cout << i + 1 << ". " << actual->dato.getTitulo() << " - "
@@ -78,7 +81,6 @@ public:
                 actual = actual->siguiente;
             }
 
-            // Controles
             std::cout << "\033[38;2;255;255;0m";
             gotoxy(23, 15); std::cout << "[A] Atras | [D] Siguiente | [ESC] Salir";
             std::cout << "\033[0m";
@@ -114,6 +116,7 @@ public:
 
         Cancion nuevaCancion(nTitulo, nAutor, nGenero, nDuracion);
         listaCancionesGlobales.agregarAlFinal(nuevaCancion);
+        colaReproduccion.encolar(nuevaCancion);
         guardarCanciones();
 
         gotoxy(18, 15); std::cout << "\033[38;2;146;208;80mCancion agregada exitosamente!\033[0m";
