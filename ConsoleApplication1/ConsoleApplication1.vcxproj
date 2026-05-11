@@ -130,6 +130,8 @@
     <ClCompile Include="ConsoleApplication1.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Album.h" />
+    <ClInclude Include="Artista.h" />
     <ClInclude Include="Canciones.h" />
     <ClInclude Include="Controladora.h" />
     <ClInclude Include="Dependencias.h" />

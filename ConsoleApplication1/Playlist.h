@@ -55,4 +55,12 @@ public:
 
         std::cout << "La playlist ha sido ordenada alfabeticamente!\n";
     }
+
+    void ordenarGenero() {
+        std::function<bool(Cancion, Cancion)> compGenero = [](Cancion c1, Cancion c2) {
+            return c1.getGenero() > c2.getGenero();
+            };
+        canciones.ordenar(compGenero);
+        std::cout << "La playlist ha sido ordenada por genero!\n";
+    }
 };

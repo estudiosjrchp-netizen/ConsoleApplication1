@@ -7,13 +7,14 @@ private:
     std::string autor;
     std::string genero;
     int duracionSegundos;
-
+    bool fav;
 public:
     Cancion(std::string _titulo = "", std::string _autor = "", std::string _genero = "", int _duracion = 0) {
         titulo = _titulo;
         autor = _autor;
         genero = _genero;
         duracionSegundos = _duracion;
+        fav = false;
     }
 
     std::string getTitulo() const { return titulo; }
@@ -25,6 +26,9 @@ public:
     void setAutor(std::string _autor) { autor = _autor; }
     void setGenero(std::string _genero) { genero = _genero; }
     void setDuracion(int _duracion) { duracionSegundos = _duracion; }
+
+    bool getF() { return fav; }
+    void setF(bool f) { fav = f; }
 
     void mostrar() const {
         std::cout << titulo << " - " << autor << " (" << genero << ") [" << duracionSegundos << "s]" << std::endl;

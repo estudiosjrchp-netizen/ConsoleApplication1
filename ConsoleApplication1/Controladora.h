@@ -22,6 +22,17 @@ public:
     };
     ~Controladora() {};
 
+    void buscarArtistaRecursivo(int indice, std::string artistaBuscado, std::vector<Cancion>& resultados) {
+        if (indice >= listaCancionesGlobales.getCantidad()) { return; } 
+        Nodo<Cancion>* actual = listaCancionesGlobales.getInicio();
+        for (int i = 0; i < indice && actual != nullptr; i++) { actual = actual->siguiente; }
+
+        if (actual != nullptr && actual->dato.getAutor() == artistaBuscado) {
+            resultados.push_back(actual->dato);
+        }
+        buscarArtistaRecursivo(indice + 1, artistaBuscado, resultados);
+    }
+
     void cargarCanciones() {
         std::ifstream archivo(nombreArchivoCanciones);
         if (archivo.is_open()) {
