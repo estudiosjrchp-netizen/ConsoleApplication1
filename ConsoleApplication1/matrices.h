@@ -26,8 +26,21 @@ void IniciarSesionFondo(int fila, int columna, int indiceIniciarSesionFondo) {
 	else { std::cout << "\033[38;2;146;208;80m"; }// verde spotify 
 	std::cout << "Eliminar Usuario";
 	std::cout << "\033[0m";
-
-
+	gotoxy(fila + 3, columna); std::cout << std::flush;
+	if (indiceIniciarSesionFondo == 4) { std::cout << "\033[38;2;255;255;0m"; }
+	else { std::cout << "\033[38;2;146;208;80m"; }// verde spotify 
+	std::cout << "Ver Canciones";
+	std::cout << "\033[0m";
+	gotoxy(fila + 4, columna); std::cout << std::flush;
+	if (indiceIniciarSesionFondo == 5) { std::cout << "\033[38;2;255;255;0m"; }
+	else { std::cout << "\033[38;2;146;208;80m"; }// verde spotify 
+	std::cout << "Eliminar Canciones";
+	std::cout << "\033[0m";
+	gotoxy(fila + 5, columna); std::cout << std::flush;
+	if (indiceIniciarSesionFondo == 6) { std::cout << "\033[38;2;255;255;0m"; }
+	else { std::cout << "\033[38;2;146;208;80m"; }// verde spotify 
+	std::cout << "Agregar Canciones";
+	std::cout << "\033[0m";
 }
 void BorrarPantallaEscribible() {
 	int fila = 10;

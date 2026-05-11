@@ -12,11 +12,136 @@ class Controladora
 private:
 	std::vector<Usuario> listaUsuarios; 
     std::string nombreArchivoUsuarios = "usuarios.txt";
+    std::vector<Cancion> listaCancionesGlobales;
+    std::string nombreArchivoCanciones = "canciones.txt";
+
 public:
 	Controladora() {
         cargarUsuarios();
+        cargarCanciones();
     };
 	~Controladora() {};
+
+    void cargarCanciones() {
+        std::ifstream archivo(nombreArchivoCanciones);
+        if (archivo.is_open()) {
+            std::string titulo, autor, genero;
+            int duracion;
+            while (archivo >> titulo >> autor >> genero >> duracion) {
+                Cancion c(titulo, autor, genero, duracion);
+                listaCancionesGlobales.push_back(c);
+            }
+            archivo.close();
+        }
+    }
+
+    void menuVerCancionesGlobales() {
+        int paginaActual = 0;
+        int cancionesPorPagina = 10; // Máximo para que no se salga de la pantalla escribible
+
+        while (true) {
+            BorrarPantallaEscribible();
+            int totalPaginas = (listaCancionesGlobales.size() + cancionesPorPagina - 1) / cancionesPorPagina;
+            if (totalPaginas == 0) totalPaginas = 1;
+
+            std::cout << "\033[38;2;146;208;80m"; // verde spotify
+            gotoxy(10, 30); std::cout << "--- REPOSITORIO GENERAL (" << paginaActual + 1 << "/" << totalPaginas << ") ---";
+            std::cout << "\033[0m";
+
+            int inicio = paginaActual * cancionesPorPagina;
+            int fin = std::min(inicio + cancionesPorPagina, (int)listaCancionesGlobales.size());
+
+            // Imprimir las canciones de la página actual
+            for (int i = inicio; i < fin; i++) {
+                gotoxy(12 + (i - inicio), 15); // Empieza en la fila 12 y baja hasta la 21
+                std::cout << i + 1 << ". " << listaCancionesGlobales[i].getTitulo() << " - "
+                    << listaCancionesGlobales[i].getAutor() << " (" << listaCancionesGlobales[i].getDuracion() << "s)";
+            }
+
+            // Controles
+            std::cout << "\033[38;2;255;255;0m"; // Amarillo
+            gotoxy(23, 15); std::cout << "[A] Atras | [D] Siguiente | [ESC] Salir";
+            std::cout << "\033[0m";
+
+            char tecla = _getch();
+            if ((tecla == 'a' || tecla == 'A') && paginaActual > 0) {
+                paginaActual--;
+            }
+            else if ((tecla == 'd' || tecla == 'D') && paginaActual < totalPaginas - 1) {
+                paginaActual++;
+            }
+            else if (tecla == 27) { // 27 es el código ASCII para ESC
+                break;
+            }
+        }
+    }
+
+    void menuAgregarCancionGlobal() {
+        std::string nTitulo, nAutor, nGenero;
+        int nDuracion;
+
+        BorrarPantallaEscribible();
+        mostrarCursor(); 
+
+        std::cout << "\033[38;2;146;208;80m";
+        gotoxy(10, 30); std::cout << "--- AGREGAR NUEVA CANCION ---";
+        std::cout << "\033[0m";
+
+        gotoxy(12, 15); std::cout << "Titulo (usa_guiones): "; std::cin >> nTitulo;
+        gotoxy(13, 15); std::cout << "Autor  (usa_guiones): "; std::cin >> nAutor;
+        gotoxy(14, 15); std::cout << "Genero (usa_guiones): "; std::cin >> nGenero;
+        gotoxy(15, 15); std::cout << "Duracion (segundos):  "; std::cin >> nDuracion;
+
+        Cancion nuevaCancion(nTitulo, nAutor, nGenero, nDuracion);
+        listaCancionesGlobales.push_back(nuevaCancion);
+        guardarCanciones();
+
+        gotoxy(18, 15); std::cout << "\033[38;2;146;208;80mCancion agregada exitosamente!\033[0m";
+        ocultarCursor();
+        _getch();
+    }
+
+    void menuEliminarCancionGlobal() {
+        std::string tituloEliminar;
+        BorrarPantallaEscribible();
+        mostrarCursor();
+
+        std::cout << "\033[38;2;255;0;0m"; // Rojo para eliminar
+        gotoxy(10, 34); std::cout << "--- ELIMINAR CANCION ---";
+        std::cout << "\033[0m";
+
+        gotoxy(12, 15); std::cout << "Ingrese el Titulo exacto a eliminar: ";
+        std::cin >> tituloEliminar;
+
+        bool encontrado = false;
+        for (size_t i = 0; i < listaCancionesGlobales.size(); i++) {
+            if (listaCancionesGlobales[i].getTitulo() == tituloEliminar) {
+                listaCancionesGlobales.erase(listaCancionesGlobales.begin() + i);
+                encontrado = true;
+                guardarCanciones();
+                gotoxy(15, 15); std::cout << "\033[38;2;146;208;80mCancion eliminada correctamente.\033[0m";
+                break;
+            }
+        }
+
+        if (!encontrado) {
+            gotoxy(15, 15); std::cout << "\033[38;2;255;0;0mError: No se encontro la cancion.\033[0m";
+        }
+
+        ocultarCursor();
+        _getch();
+    }
+
+    void guardarCanciones() {
+        std::ofstream archivo(nombreArchivoCanciones);
+        if (archivo.is_open()) {
+            for (const Cancion& c : listaCancionesGlobales) {
+                archivo << c.getTitulo() << " " << c.getAutor() << " "
+                    << c.getGenero() << " " << c.getDuracion() << "\n";
+            }
+            archivo.close();
+        }
+    }
 
     void cargarUsuarios() {
         std::ifstream archivo(nombreArchivoUsuarios); 
@@ -154,7 +279,7 @@ public:
             IniciarSesionFondo(13, 37, indiceFondoIniciarSesion);
             char tecla = _getch();
             if (tecla == 115 || tecla == 83) {
-                if (indiceFondoIniciarSesion < 3) {
+                if (indiceFondoIniciarSesion < 6) {
                     indiceFondoIniciarSesion++;
                 }
             }
@@ -168,6 +293,9 @@ public:
                 case 1: menuIniciarSesion(); _getch(); break;
                 case 2: menuRegistrarUsuario(); _getch(); break;
                 case 3: menuEliminarUsuario(); _getch(); break;
+                case 4: menuVerCancionesGlobales(); _getch(); break;
+                case 5: menuEliminarCancionGlobal(); _getch(); break;
+                case 6: menuAgregarCancionGlobal(); _getch(); break;
                 }
             }
             BorrarPantallaEscribible();
