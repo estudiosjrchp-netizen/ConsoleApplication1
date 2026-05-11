@@ -1,5 +1,6 @@
 #pragma once
 #include "Dependencias.h"
+#include <functional>
 //lista circular doblemente enlazada pa que vean hijitos
 template <typename T>
 class Lista1 {
@@ -124,4 +125,41 @@ public:
         return true;
     }
 
-};
+    //esta wea la cree para ordenamiento alfabetico pero puede servir para cualquier cosa por el functional 
+    void ordenar(std::function<bool(T, T)> comparador) {
+        // Si la lista está vacía o solo tiene 1 elemento, ya está ordenada
+        if (inicio == nullptr || inicio == fin) return;
+
+        bool intercambiado;
+        do {
+            intercambiado = false;
+            Nodo<T>* actual = inicio;
+
+            // Recorremos la lista circular
+            do {
+                Nodo<T>* siguiente = actual->siguiente;
+
+                // Evitamos comparar el último nodo con el inicio en este ciclo
+                if (siguiente != inicio) {
+
+                    // Aquí usamos el primer lambda el alfabetico 
+                    //si devuelve true los cambiamos
+                    if (comparador(actual->dato, siguiente->dato)) {
+
+                        // Intercambiamos solo los 'datos' (es más fácil que mover los nodos enteros)
+                        T temp = actual->dato;
+                        actual->dato = siguiente->dato;
+                        siguiente->dato = temp;
+
+                        intercambiado = true; // Hubo un cambio, así que repetiremos el ciclo
+                    }
+                }
+                actual = actual->siguiente;
+            } while (actual->siguiente != inicio); // Paramos cuando damos la vuelta
+
+        } while (intercambiado); // Si en toda una vuelta no intercambiamos nada, ya está ordenado
+    }
+
+}; 
+
+
