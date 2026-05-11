@@ -57,10 +57,13 @@ public:
                 existe = true;
                 break;
             }
+
+
+
         }
 
         if (existe) {
-            gotoxy(16, 37); std::cout << "Error: Ya existe un usuario con el ID " << nId;
+            gotoxy(16, 25); std::cout << "Error: Ya existe un usuario con el ID " << nId;
         }
         else {
             // Si no existe, pedimos el resto de datos
